@@ -157,6 +157,10 @@ button:disabled {
     padding: 10px;
 }
 
+.typingNotifier {
+    color: #ffa500;
+}
+
 .message {
     padding: 10px;
 }

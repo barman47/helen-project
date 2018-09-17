@@ -10,11 +10,18 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
+const moment = require('moment');
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
 const {Users} = require('./utils/users');
+// const YearOne = require('./models/chat-100-level');
+// const YearTwo = require('./models/chat-200-level');
+// const YearThree = require('./models/chat-300-level');
+// const YearFour = require('./models/chat-400-level');
+const Message = require('./models/message');
 const User = require('./models/user');
+const {saveMessage} = require('./utils/insert-message');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
 const config = require('./config/database');
@@ -121,12 +128,10 @@ io.on('connection', (socket) => {
          } else if (userList.includes(params.username)) {
              callback('You are already a member of this chat room');
          } else {
-             if (params.room === '100 Level' || params.room === '200 Level' || params.room === '300 Level' || params.room === '400 Level') {
+             if (params.room === 'Year One' || params.room === 'Year Two' || params.room === 'Year Three' || params.room === 'Year Four') {
                  socket.join(params.room);
                  users.removeUser(socket.id);
                  users.addUser(socket.id, params.username, params.room);
-
-                 console.log(params.room);
 
                  io.to(params.room).emit('updateUserList', users.getUserList(params.room));
                  // socket.leave(params.room);
@@ -136,6 +141,10 @@ io.on('connection', (socket) => {
                  // socket.emit
 
                  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+
+                 // Query Database for messages here
+                 //socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
+
                  socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
                  callback();
 
@@ -149,6 +158,20 @@ io.on('connection', (socket) => {
          var user = users.getUser(socket.id);
          if (user && isRealString(message.text)) {
             io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+            let time = moment();
+            let chatMessage = new Message({
+                message: message.text,
+                sender: user.name,
+                time: time.format('h:mm a'),
+                room: user.room
+            });
+            chatMessage.save((err) => {
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('Message Saved')
+                }
+            });
          }
          callback();
     });
@@ -160,14 +183,17 @@ io.on('connection', (socket) => {
          }
      });
 
-     socket.on('typingNotification', function () {
-         var user = users.getUser(socket.id);
-         console.log('typing event received');
-         socket.broadcast.to(user.room).emit('userTypingNotification', {
-             user: user.name,
-             text: 'is typing...'
+     socket.on('userTyping', (message) => {
+         socket.broadcast.to(message.room).emit('typingNotification', {
+             user: message.user,
+             typing: message.typing
          });
+     });
 
+     socket.on('focusoutEvent', (message) => {
+         socket.broadcast.to(message.room).emit('focusout', {
+             text: message.info
+         });
      });
 
       socket.on('disconnect', () => {

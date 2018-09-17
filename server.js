@@ -15,6 +15,7 @@ const moment = require('moment');
 const {generateMessage, generateLocationMessage, generateDatabaseMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
 const {Users} = require('./utils/users');
+const {ensureAuthenticated} = require('./utils/access-control');
 // const YearOne = require('./models/chat-100-level');
 // const YearTwo = require('./models/chat-200-level');
 // const YearThree = require('./models/chat-300-level');
@@ -105,7 +106,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/:id/chat', (req, res) => {
+app.get('/:id/chat', ensureAuthenticated, (req, res) => {
     User.findOne({_id: req.params.id}, (err, returnedUser) => {
         if (err) {
             return console.log(err);
@@ -115,7 +116,6 @@ app.get('/:id/chat', (req, res) => {
         }
     });
 });
-
 
 io.on('connection', (socket) => {
     console.log('New user connected');
@@ -148,7 +148,6 @@ io.on('connection', (socket) => {
                      } else {
                          messages.forEach((message) => {
                             io.to(params.room).emit('newDatabaseMessage', generateDatabaseMessage(message.sender, message.message, message.time));
-                            console.log('messages ', message);
                          });
                      }
                  });
@@ -179,11 +178,11 @@ io.on('connection', (socket) => {
                 if (err) {
                     return console.log(err);
                 } else {
-                    console.log('Message Saved')
+                    callback();
                 }
             });
          }
-         callback();
+
     });
 
      socket.on('createLocationMessage', (coords) => {

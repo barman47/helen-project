@@ -9,6 +9,7 @@ const moment = require('moment');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
 const User = require('../models/user');
+const {ensureAuthenticated} = require('../utils/access-control');
 
 let time = moment();
 time = time.format('h:mma');
@@ -124,7 +125,7 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/dashboard/:id', (req, res) => {
+router.get('/dashboard/:id', ensureAuthenticated, (req, res) => {
     User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return console.log(err);
@@ -143,7 +144,7 @@ router.get('/dashboard/:id', (req, res) => {
     });
 });
 
-router.get('/:id/joinChat', (req, res) => {
+router.get('/:id/joinChat', ensureAuthenticated, (req, res) => {
     User.findOne({_id: req.params.id}, (err, returnedUser) => {
         if (err) {
             return console.log(err);
@@ -161,8 +162,10 @@ router.get('/:id/joinChat', (req, res) => {
     });
 });
 
-// router.post('/users/id:/chat', (req, res) => {
-//     res.sendFile(publicPath + '../views/chat.html');
-// });
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', 'You are logged out');
+    res.redirect('/');
+});
 
 module.exports = router;

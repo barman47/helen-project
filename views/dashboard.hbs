@@ -3,9 +3,8 @@
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo">Chat App</a>
             <ul id="nav-mobile" class="right">
-                <li><a id="toChat" href="#">To Chat</a></li>
-                <li><a id="logout" href="#">Logout</a></li>
-                <li class="tooltipped" data-tooltip="{{name}}"><span class="mdi mdi-account"></span></li>
+                <li><a id="toChat" href="/users/{{id}}/joinChat">To Chat</a></li>
+                <li><a id="logout" href="/users/logout">Logout</a></li>
                 <li id="time">Logged in at <span class="yellow-text">{{time}}</span></li>
             </ul>
         </div>

@@ -12,7 +12,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const moment = require('moment');
 
-const {generateMessage, generateLocationMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage, generateDatabaseMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
 const {Users} = require('./utils/users');
 // const YearOne = require('./models/chat-100-level');
@@ -140,10 +140,20 @@ io.on('connection', (socket) => {
                  // socket.broadcast.emit => socket.broadcast.to(params.room).emit
                  // socket.emit
 
-                 socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-
                  // Query Database for messages here
                  //socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
+                 Message.find({room: params.room}, (err, messages) => {
+                     if (err) {
+                         return console.log(err);
+                     } else {
+                         messages.forEach((message) => {
+                            io.to(params.room).emit('newDatabaseMessage', generateDatabaseMessage(message.sender, message.message, message.time));
+                            console.log('messages ', message);
+                         });
+                     }
+                 });
+
+                 socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
                  socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
                  callback();

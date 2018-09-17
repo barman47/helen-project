@@ -1,0 +1,30 @@
+<section id="mainContent">
+    <div class="row">
+        <div class="col s12 section">
+            <form id="loginForm" name="loginForm" method="POST" action="/users/login">
+                <div class="center"><span class="mdi mdi-login formIcons"></span></div>
+                <h5 class="center">User Login</h5>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="mdi mdi-account prefix"></i>
+                        <input value="{{username}}" type="text" id="username" name="username" autofocus>
+                        <label for="username">Username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="mdi mdi-lock prefix"></i>
+                        <input value="{{password}}" type="password" id="password" name="password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn" type="submit" id="loginButton">Login</button>
+                    </div>
+                </div>
+                <p class="center" id="newUser">New User? <a href="/users/register">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+</section>

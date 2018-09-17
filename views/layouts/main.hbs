@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="/css/materialdesignicons.min.css">
+        <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="/css/materialize.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="{{style}}">
+        <style>
+            .messages {
+                padding: 10px 0;
+                margin: 0px !important;
+            }
+
+            #failureText {
+                /*color: #d32f2f;*/
+                color: #ffffff;
+                background-color: rgba(244, 67, 54, .70);
+            }
+
+            #successText {
+                color: #388e3c;
+                background-color: #a5d6a7;
+            }
+
+            .successClose:hover {
+                color: #ff0000;
+                cursor: pointer;
+            }
+
+            .failureClose:hover {
+                color: #ffffff;
+                cursor: pointer;
+            }
+        </style>
+        <title>{{title}}</title>
+    </head>
+    {{#if success_message}}
+        <p id="successText" class="center messages">{{success_message}}<i class="right mdi mdi-close mdi-18px successClose"></i></p>
+    {{/if}}
+
+    {{#if failure_message}}
+        <p id="failureText" class="center messages">{{failure_message}}<i class="right mdi mdi-close mdi-18px failureClose"></i></p>
+    {{/if}}
+    {{{body}}}
+    {{!-- <div id="footer">
+        <p>&copy; Copyright 2018 - Powered by Vegistech</p>
+    </div> --}}
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script> -->
+    <script src="/js/materialize.min.js"></script>
+    <script src="/js/moment.js"></script>
+    <script src="/js/mustache.js"></script>
+    <script src="/js/deparam.js"></script>
+    <script src="{{script}}"></script>
+    <script>
+        $('.successClose').click(function () {
+            $('#successText').remove();
+        });
+
+        $('.failureClose').click(function () {
+            $('#failureText').remove();
+        });
+    </script>
+</html>

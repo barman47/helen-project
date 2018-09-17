@@ -1,0 +1,93 @@
+ {{#if errors}}
+    {{#each errors}}
+        <div>
+            <p class="red-text text-darken-2 error-message center">{{this.msg}}</p>
+        </div>
+    {{/each}}
+{{/if}}
+{{#if error}}
+    <div>
+        <p class="red-text text-darken-2 error-message center">{{error}}</p>
+    </div>
+{{/if}}
+<section id="mainContent">
+    <div class="row">
+        <form id="signupForm" name="signupForm" method="POST" action="/users/register">
+            <span class="mdi"></span>
+            <h5 class="center">User Signup</h5>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <span class="mdi mdi-account prefix"></span>
+                        <input value="{{name}}" type="text" id="name" name="name" autofocus>
+                        <label for="name">Enter Your Name</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <span class="mdi mdi-email prefix"></span>
+                        <input value="{{email}}" type="email" id="email" name="email">
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <div class="mdi mdi-account prefix"></div>
+                        <input value="{{username}}" type="text" id="username" name="username">
+                        <label for="username">Username</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <span class="mdi mdi-lock prefix"></span>
+                        <input value="{{password}}" type="password" id="password" name="password">
+                        <label for="password">Enter Password</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <span class="mdi mdi-lock prefix"></span>
+                        <input value="{{confirmPassword}}" type="password" id="confirmPassword" name="confirmPassword">
+                        <label for="confirmPassword">Confirm Password</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <p class="center">Gender:</p>
+                    <p>
+                        <label for="male">
+                            <input class="with-gap" type="radio" name="gender" id="male" value="male">
+                            <span>Male</span>
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label for="female">
+                            <input class="with-gap" type="radio" name="gender" id="female" value="female">
+                            <span>Female</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <button class="btn" type="submit" id="signupButton">Sign up</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col s12">
+                    <p class="center" id="newUser">Have an account? <a href="/">Log in</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

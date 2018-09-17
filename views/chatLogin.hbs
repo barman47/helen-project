@@ -1,0 +1,55 @@
+<header>
+    <nav class="orange">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Chat App</a>
+            <ul id="nav-mobile" class="right">
+                <li><a id="toChat" href="#">Dashboard</a></li>
+                <li><a id="logout" href="#">Logout</a></li>
+                <li class="tooltipped" data-tooltip="{{name}}"><span class="mdi mdi-account"></span></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="container" id="chatContainerLogin">
+        <h5 class="center section"center>Chat Login</h5>
+        <form class="align-center" action="/{{id}}/chat">
+            <div class="input-field col s12">
+                <select name="room">
+                    <option value="" disabled selected>Choose one</option>
+                    <option value="100 Level">100 Level</option>
+                    <option value="200 Level">200 Level</option>
+                    <option value="300 Level">300 Level</option>
+                    <option value="400 Level">400 Level</option>
+                </select>
+                <label>Chat Group Select</label>
+            </div>
+            <div class="input-field col s12">
+                <input id="username" type="text" name="username" value="{{name}}">
+                <label for="username">Room Alias</label>
+            </div>
+            <div class="input-field col s12">
+                <button type="submit">Join Chat</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="page-footer white">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center">
+                <ul>
+                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
+                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
+                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
+                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container center orange-text text-lighten-2">&copy; Copyright 2018. Powered by Vegistech</div>
+    </div>
+</footer>

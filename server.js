@@ -114,23 +114,35 @@ io.on('connection', (socket) => {
     console.log('New user connected');
 
      socket.on('join', (params, callback) => {
+         // var clients = io.sockets.adapter.rooms[params.room].sockets;
+         var userList = users.getUserList(params.room);
          if (!isRealString(params.username) || !isRealString(params.room)) {
              return callback('Name and room name are required.');
+         } else if (userList.includes(params.username)) {
+             callback('You are already a member of this chat room');
+         } else {
+             if (params.room === '100 Level' || params.room === '200 Level' || params.room === '300 Level' || params.room === '400 Level') {
+                 socket.join(params.room);
+                 users.removeUser(socket.id);
+                 users.addUser(socket.id, params.username, params.room);
+
+                 console.log(params.room);
+
+                 io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+                 // socket.leave(params.room);
+
+                 // io.emit -> io.to(params.room).emit;
+                 // socket.broadcast.emit => socket.broadcast.to(params.room).emit
+                 // socket.emit
+
+                 socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+                 socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
+                 callback();
+
+             } else {
+                 callback ('You are not allowed to create a room');
+             }
          }
-         socket.join(params.room);
-         users.removeUser(socket.id);
-         users.addUser(socket.id, params.username, params.room);
-
-         io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-         // socket.leave(params.room);
-
-         // io.emit -> io.to(params.room).emit;
-         // socket.broadcast.emit => socket.broadcast.to(params.room).emit
-         // socket.emit
-
-         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.username} has joined`));
-         callback();
      });
 
      socket.on('createMessage', (message, callback) => {

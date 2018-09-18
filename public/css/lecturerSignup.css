@@ -3,10 +3,6 @@
     padding: 0;
 }
 body {
-    /* position: relative; */
-    background-image: url('/img/homepageBackground.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
     width: 100%;
     height: auto;
 }
@@ -38,28 +34,17 @@ nav {
     font-size: 50px;
 }
 
-#loginForm {
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 20px 50px;
-    width: 35% !important;
-    /* height: auto; */
-    color: #ffffff;
-    margin: 60px auto;
-    border-radius: 10px;
-}
-
 #signupForm {
-    background-color: rgba(0, 0, 0, 0.8);
+    color: #000000;
     padding: 20px 50px;
     width: 35% !important;
-    /* height: auto; */
-    color: #ffffff;
     margin: 40px auto;
+    border: 2px solid #f1f1f1;
     border-radius: 10px;
 }
 
 .input-field input {
-    color: #ffffff;
+    color: #ffa500;
 }
 
 .input-field input[type=text]:focus + label, input[type=email]:focus + label, input[type=password]:focus + label {
@@ -87,8 +72,12 @@ nav {
     color: #ffa500 !important;
 }
 
+.input-field .prefix {
+    color: #c5c5c5 !important;
+}
+
 .icon {
-    color: #ffffff !important;
+    color: #f5f5f5 !important;
 }
 
 [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {

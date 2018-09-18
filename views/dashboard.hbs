@@ -3,9 +3,10 @@
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo">Chat App</a>
             <ul id="nav-mobile" class="right">
-                <li><a id="toChat" href="/users/{{id}}/joinChat">To Chat</a></li>
-                <li><a id="logout" href="/users/logout">Logout</a></li>
-                <li id="time">Logged in at <span class="yellow-text">{{time}}</span></li>
+                <li class="active"><a id="toChat" href="/users//dashboard/{{id}}"><i class="mdi mdi-layers-outline left"></i>Dashboard</a></li>
+                <li><a id="toChat" href="/users/{{id}}/joinChat"><i class="mdi mdi-comment-text-multiple-outline left"></i>Chat</a></li>
+                <li><a id="toChat" href="/users/{{id}}/lecturers"><i class="mdi mdi-account-multiple left"></i>Lecturers</a></li>
+                <li><a id="logout" href="/users/logout"><i class="mdi mdi-logout left"></i>Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -28,7 +29,7 @@
             <div class="col s6">
                 <div class="card small">
                     <div class="card-content center">
-                        <a href="/users/{{id}}/joinChat"><span class="mdi mdi-account main-icons tooltipped" data-tooltip="To Chat"></span></a>
+                        <a href="/users/{{id}}/joinChat"><span class="mdi mdi-comment-text-multiple-outline main-icons tooltipped" data-tooltip="To Chat"></span></a>
                     </div>
                 </div>
             </div>
@@ -36,19 +37,7 @@
     </div>
 </main>
 
-<footer class="page-footer white">
-    <div class="container">
-        <div class="row">
-            <div class="col s12 center">
-                <ul>
-                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
-                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
-                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
-                    <li><a class="black-text text-lighten-2" href="#!"><span class="mdi mdi-facebook"></span></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<footer>
     <div class="footer-copyright">
         <div class="container center orange-text text-lighten-2">&copy; Copyright 2018. Powered by Vegistech</div>
     </div>

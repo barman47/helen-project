@@ -45,6 +45,7 @@ conn.on('error', (err) => {
 });
 
 const userRoute = require('./routes/users');
+const lecturerRoute = require('./routes/lecturers');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -97,10 +98,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/users', userRoute);
+app.use('/lecturers', lecturerRoute);
 
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Home page',
+        title: 'User Login',
         style: '/css/index.css',
         script: '/js/index.js'
     });

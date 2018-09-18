@@ -9,6 +9,7 @@ const moment = require('moment');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
 const User = require('../models/user');
+const Lecturer = require('../models/lecturer');
 const {ensureAuthenticated} = require('../utils/access-control');
 
 let time = moment();
@@ -18,7 +19,8 @@ let date;
 router.get('/register', (req, res) => {
     res.render('register', {
         title: 'Sign up',
-        style: '/css/index.css'
+        style: '/css/index.css',
+        script: '/js/userSignup.js'
     });
 });
 
@@ -157,6 +159,28 @@ router.get('/:id/joinChat', ensureAuthenticated, (req, res) => {
                 script: '/js/chatLogin.js',
                 id: user._id,
                 name
+            });
+        }
+    });
+});
+
+router.get('/:id/lecturers', ensureAuthenticated, (req, res) => {
+    User.findOne({_id: req.params.id}, (err, returnedUser) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            let user = returnedUser;
+            Lecturer.find({}, (err, returnedLecturers) => {
+                if (err) {
+                    return console.log(err);
+                }
+                let lecturers = returnedLecturers;
+                res.render('lecturers', {
+                    title: 'Lecturer Messages',
+                    style: '/css/lecturers.css',
+                    script: '/js/lecturers.js',
+                    id: user._id
+                });
             });
         }
     });

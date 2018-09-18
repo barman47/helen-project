@@ -21,6 +21,7 @@
                         <span class="mdi mdi-account prefix"></span>
                         <input value="{{name}}" type="text" id="name" name="name" autofocus>
                         <label for="name">Enter Your Name</label>
+                        <span class="helper-text" data-error="Please provide your Name" data-success=""></span>
                     </div>
                 </div>
             </div>
@@ -30,6 +31,7 @@
                         <span class="mdi mdi-email prefix"></span>
                         <input value="{{email}}" type="email" id="email" name="email">
                         <label for="email">Email</label>
+                        <span class="helper-text" data-error="Please provide a valid email address" data-success="">e.g john@doe.com</span>
                     </div>
                 </div>
             </div>
@@ -39,6 +41,7 @@
                         <div class="mdi mdi-account prefix"></div>
                         <input value="{{username}}" type="text" id="username" name="username">
                         <label for="username">Username</label>
+                        <span class="helper-text" data-error="Please provide a username" data-success=""></span>
                     </div>
                 </div>
             </div>
@@ -48,6 +51,7 @@
                         <span class="mdi mdi-lock prefix"></span>
                         <input value="{{password}}" type="password" id="password" name="password">
                         <label for="password">Enter Password</label>
+                        <span class="helper-text" data-error="Please provide a password" data-success="">Should be at least 8 characters long</span>
                     </div>
                 </div>
             </div>
@@ -57,6 +61,7 @@
                         <span class="mdi mdi-lock prefix"></span>
                         <input value="{{confirmPassword}}" type="password" id="confirmPassword" name="confirmPassword">
                         <label for="confirmPassword">Confirm Password</label>
+                        <span class="helper-text" data-error="Passwords do not match!" data-success=""></span>
                     </div>
                 </div>
             </div>

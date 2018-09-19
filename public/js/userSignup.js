@@ -23,12 +23,12 @@ $(document).ready(function () {
                 break;
             }
         }
-        if (!gender[0].checked === true || !gender[1].checked === true) {
-            event.preventDefault();
-            M.toast({
-                html: 'Please select your gender'
-            });
-        }
+        // if (!gender[0].checked === true || !gender[1].checked === true) {
+        //     event.preventDefault();
+        //     M.toast({
+        //         html: 'Please select your gender'
+        //     });
+        // }
     }
 
     function isEmpty (element) {

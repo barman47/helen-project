@@ -9,14 +9,16 @@ let UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String
+    },
     password: {
         type: String,
         required: true
     },
-    // regNo: {
-    //     type: String,
-    //     required: true
-    // },
+    level: {
+        type: String
+    },
     gender: {
         type: String,
         required: true

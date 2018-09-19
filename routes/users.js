@@ -2,9 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const mongoose = require('mongoose');
-// const expressValidator = require('express-validator');
 const router = express.Router();
-// router.use(expressValidator());
 const moment = require('moment');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
@@ -113,7 +111,13 @@ router.post('/login', (req, res, next) => {
         }
         if (!user) {
             req.flash('failure', 'Incorrect username or Password.');
-            return res.redirect('/')
+            return res.render('index', {
+                title: 'User Login',
+                style: '/css/index.css',
+                script: '/js/index.js',
+                username: req.body.username,
+                password: req.body.password
+            });
         }
 
         req.logIn(user, (err) => {
@@ -138,8 +142,7 @@ router.get('/dashboard/:id', ensureAuthenticated, (req, res) => {
                 title: `${user.name} - Dashboard`,
                 style: '/css/dashboard.css',
                 script: '/js/dashboard.js',
-                id: user._id,
-                name: user.name,
+                user,
                 time: date
             });
         }
@@ -164,25 +167,37 @@ router.get('/:id/joinChat', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.get('/:id/lecturers', ensureAuthenticated, (req, res) => {
-    User.findOne({_id: req.params.id}, (err, returnedUser) => {
+router.put('/dashboard/:id', (req, res) => {
+    let data = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        level: req.body.level
+    };
+
+    bcrypt.genSalt(10, (err, salt) => {
         if (err) {
             return console.log(err);
-        } else {
-            let user = returnedUser;
-            Lecturer.find({}, (err, returnedLecturers) => {
+        }
+        bcrypt.hash(data.password, salt, (err, hash) => {
+            if (err) {
+                return console.log(err);
+            }
+            data.password = hash;
+            let query = {_id: req.params.id};
+            User.findOneAndUpdate(query, {$set: {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                level: data.level
+            }}, {new: true}, (err, updatedUser) => {
                 if (err) {
                     return console.log(err);
+                } else {
+                    res.status(200).end();
                 }
-                let lecturers = returnedLecturers;
-                res.render('lecturers', {
-                    title: 'Lecturer Messages',
-                    style: '/css/lecturers.css',
-                    script: '/js/lecturers.js',
-                    id: user._id
-                });
             });
-        }
+        });
     });
 });
 

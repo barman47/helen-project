@@ -1,11 +1,10 @@
 <header>
     <nav>
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo">Chat App</a>
+            <a href="/" class="brand-logo">Chat App</a>
             <ul id="nav-mobile" class="right">
-                <li class="active"><a id="toChat" href="/users//dashboard/{{id}}"><i class="mdi mdi-layers-outline left"></i>Dashboard</a></li>
-                <li><a id="toChat" href="/users/{{id}}/joinChat"><i class="mdi mdi-comment-text-multiple-outline left"></i>Chat</a></li>
-                <li><a id="toChat" href="/users/{{id}}/lecturers"><i class="mdi mdi-account-multiple left"></i>Lecturers</a></li>
+                <li class="active"><a id="toChat" href="/users/dashboard/{{id}}"><i class="mdi mdi-layers-outline left"></i>Dashboard</a></li>
+                <li><a id="toChat" href="/users/{{user._id}}/joinChat"><i class="mdi mdi-comment-text-multiple-outline left"></i>Chat</a></li>
                 <li><a id="logout" href="/users/logout"><i class="mdi mdi-logout left"></i>Logout</a></li>
             </ul>
         </div>
@@ -14,7 +13,7 @@
 
 <main>
     <div>
-        <h5 class="center">Welcome back {{name}}</h5>
+        <h5 class="center">Welcome back {{user.name}}</h5>
     </div>
 
     <div id="mainContent" class="container">
@@ -22,17 +21,63 @@
             <div class="col s6">
                 <div class="card small">
                     <div class="card-content center">
-                        <a href="#"><span class="mdi mdi-account main-icons tooltipped" data-tooltip="My Profile"></span></a>
+                        <a href="#profileModal" class="modal-trigger"><span class="mdi mdi-account main-icons tooltipped" data-tooltip="My Profile"></span></a>
                     </div>
                 </div>
             </div>
             <div class="col s6">
                 <div class="card small">
                     <div class="card-content center">
-                        <a href="/users/{{id}}/joinChat"><span class="mdi mdi-comment-text-multiple-outline main-icons tooltipped" data-tooltip="To Chat"></span></a>
+                        <a href="/users/{{user._id}}/joinChat"><span class="mdi mdi-comment-text-multiple-outline main-icons tooltipped" data-tooltip="To Chat"></span></a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="profileModal" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="center"><i class="mdi mdi-settings"></i>{{user.name}} - Profile</h4>
+            </div>
+            <div class="content">
+                <br>
+                <h6 class="center">Personal Info</h6>
+                <br>
+                <hr>
+                <br>
+                <div class="input-field">
+                    <input type="text" name="studentName" id="studentName" value="{{user.name}}" disabled>
+                    <label>Student Name</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="username" id="username" value="{{user.username}}" disabled>
+                    <label>Username</label>
+                </div>
+                <div class="input-field">
+                    <input type="email" class="validate" name="email" id="email" value="{{user.email}}" disabled>
+                    <label>Email</label>
+                    <span class="helper-text" data-error="Please provide a valid email address" data-success="">e.g. dominic@example.com</span>
+                </div>
+                <div class="input-field">
+                    <input data-password="{{user.password}}" type="password" class="validate" name="password" id="password" disabled>
+                    <label>Password</label>
+                    <span class="helper-text" data-error="Please provide a valid password" data-success="">Password should be at least 8 characters long</span>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="gender" id="gender" value="{{user.gender}}" disabled>
+                    <label>Gender</label>
+                </div>
+                <div class="input-field col s12">
+                    <input type="text"  name="level" id="level" value="{{user.level}}" disabled>
+                    <label for-"level">Level</label>
+                    <span class="helper-text" data-error="Please provide a valid level. e.g. 100 Level" data-success="">e.g. 100 Level</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="editButton" class="btn blue darken-2 waves-effect waves-light"><i class="mdi mdi-pencil left"></i>Edit</button>
+            <button id="saveButton" class="btn green darken-2 waves-effect waves-light" data-id="{{user._id}}"><i class="mdi mdi-check left"></i>Save</button>
+            <button class="btn red darken-2 waves-effect waves-light modal-close"><i class="mdi mdi-close left"></i>Close</button>
         </div>
     </div>
 </main>

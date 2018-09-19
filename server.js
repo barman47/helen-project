@@ -16,10 +16,6 @@ const {generateMessage, generateLocationMessage, generateDatabaseMessage} = requ
 const {isRealString} = require('./utils/validation');
 const {Users} = require('./utils/users');
 const {ensureAuthenticated} = require('./utils/access-control');
-// const YearOne = require('./models/chat-100-level');
-// const YearTwo = require('./models/chat-200-level');
-// const YearThree = require('./models/chat-300-level');
-// const YearFour = require('./models/chat-400-level');
 const Message = require('./models/message');
 const User = require('./models/user');
 const {saveMessage} = require('./utils/insert-message');
@@ -45,7 +41,6 @@ conn.on('error', (err) => {
 });
 
 const userRoute = require('./routes/users');
-const lecturerRoute = require('./routes/lecturers');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -98,7 +93,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/users', userRoute);
-app.use('/lecturers', lecturerRoute);
 
 app.get('/', (req, res) => {
     res.render('index', {
@@ -121,9 +115,7 @@ app.get('/:id/chat', ensureAuthenticated, (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('New user connected');
-
      socket.on('join', (params, callback) => {
-         // var clients = io.sockets.adapter.rooms[params.room].sockets;
          var userList = users.getUserList(params.room);
          if (!isRealString(params.username) || !isRealString(params.room)) {
              return callback('Name and room name are required.');

@@ -7,7 +7,6 @@ const moment = require('moment');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
 const User = require('../models/user');
-const Lecturer = require('../models/lecturer');
 const {ensureAuthenticated} = require('../utils/access-control');
 
 let time = moment();

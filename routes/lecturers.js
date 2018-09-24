@@ -17,7 +17,7 @@ let date;
 router.get('/register', (req, res) => {
     res.render('lecturerSignup', {
         title: 'Lecturer Registration',
-        style: '/css/lecturerSignup.css',
+        style: '/css/index.css',
         script: '/js/lecturerSignup.js'
     });
 });
@@ -26,19 +26,13 @@ router.post('/register', (req, res) => {
     const body = req.body;
     const newLecturer = {
         name: body.name,
-        email: body.email,
-        username: body.username,
-        password: body.password,
-        confirmPassword: body.confirmPassword,
-        gender: body.gender
+        username: body.lecturerUsername,
+        password: body.lecturerPassword
     };
 
     req.checkBody('name', 'Name is required').notEmpty();
-    req.checkBody('email', 'Invalid Email Address').isEmail();
-    req.checkBody('username', 'Invalid Username').notEmpty();
-    req.checkBody('password', 'Password is required').notEmpty().isLength({min: 8});
-    req.checkBody('confirmPassword', 'Passwords do not match!').equals(newLecturer.password);
-    req.checkBody('gender', 'Please Select your Gender').notEmpty();
+    req.checkBody('lecturerUsername', 'Invalid Username').notEmpty();
+    req.checkBody('lecturerPassword', 'Password is required').notEmpty().isLength({min: 8});
 
     let errors = req.validationErrors();
 
@@ -49,19 +43,14 @@ router.post('/register', (req, res) => {
             script: '/js/lecturerSignup.js',
             errors: errors,
             name: newLecturer.name,
-            email: newLecturer.email,
             username: newLecturer.username,
-            password: newLecturer.password,
-            confirmPassword: newLecturer.confirmPassword,
-            gender: newLecturer.gender
+            password: newLecturer.password
         });
     } else {
         let lecturer = new Lecturer({
             name: newLecturer.name,
-            email: newLecturer.email,
             username: newLecturer.username,
-            password: newLecturer.password,
-            gender: newLecturer.gender
+            password: newLecturer.password
         });
 
         Lecturer.findOne({username: lecturer.username}, (err, foundLecturer) => {
@@ -69,17 +58,14 @@ router.post('/register', (req, res) => {
                 return console.log(err);
             }
             if (foundLecturer) {
-                res.render('register', {
+                res.render('/lecturers/register', {
                     title: 'Lecturer Registration',
                     style: '/css/lecturerSignup.css',
                     script: '/js/lecturerSignup.js',
-                    error: 'Username already taken',
+                    error: 'Username already taken.',
                     name: newLecturer.name,
-                    email: newLecturer.email,
                     username: newLecturer.username,
-                    password: newLecturer.password,
-                    confirmPassword: newLecturer.confirmPassword,
-                    gender: newLecturer.gender
+                    password: newLecturer.password
                 });
             } else{
                 bcrypt.genSalt(10, (err, salt) => {
@@ -107,7 +93,7 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('lecturer', (err, user, info) => {
         if (err) {
             return next(err);
         }
@@ -122,7 +108,8 @@ router.post('/login', (req, res, next) => {
             }
             let id = user._id;
             id = mongoose.Types.ObjectId(id);
-            res.redirect(`/lecturers/dashboard/${id}`);
+            // res.redirect(`/lecturers/dashboard/${id}`);
+            res.redirect(`/lecturers/${id}/joinChat`);
         });
     })(req, res, next);
 });
@@ -130,7 +117,7 @@ router.post('/login', (req, res, next) => {
 router.get('/login', (req, res) => {
     res.render('lecturerLogin', {
         title: 'Lecturer Login',
-        style: '/css/lecturerLogin.css',
+        style: '/css/index.css',
         script: '/js/lecturerLogin.js'
     });
 });
@@ -143,14 +130,32 @@ router.get('/dashboard/:id', ensureAuthenticated, (req, res) => {
             date = new moment();
             date =  date.format('h : mm a');
             res.send('Lecturer Logged In');
-            // res.render('dashboard', {
-            //     title: `${user.name} - Dashboard`,
-            //     style: '/css/dashboard.css',
-            //     script: '/js/dashboard.js',
-            //     id: user._id,
-            //     name: user.name,
-            //     time: date
-            // });
+            res.render('dashboard', {
+                title: `${user.name} - Dashboard`,
+                style: '/css/dashboard.css',
+                script: '/js/dashboard.js',
+                id: user._id,
+                name: user.name,
+                time: date
+            });
+        }
+    });
+});
+
+router.get('/:id/joinChat', ensureAuthenticated, (req, res) => {
+    Lecturer.findOne({_id: req.params.id}, (err, returnedLecturer) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            let lecturer = returnedLecturer;
+            let name = lecturer.name.slice(0, lecturer.name.indexOf(' '));
+            res.render('chatLogin', {
+                title: 'Join | Chat',
+                style: '/css/chatLogin.css',
+                script: '/js/chatLogin.js',
+                id: lecturer._id,
+                name: `Lecturer: ${name}`
+            });
         }
     });
 });

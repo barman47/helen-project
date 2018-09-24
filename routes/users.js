@@ -15,7 +15,7 @@ let date;
 
 router.get('/register', (req, res) => {
     res.render('register', {
-        title: 'Sign up',
+        title: 'Student Sign up',
         style: '/css/index.css',
         script: '/js/userSignup.js'
     });
@@ -26,16 +26,16 @@ router.post('/register', (req, res) => {
     const newUser = {
         name: body.name,
         email: body.email,
-        username: body.username,
-        password: body.password,
+        username: body.studentUsername,
+        password: body.studentPassword,
         confirmPassword: body.confirmPassword,
         gender: body.gender
     };
 
     req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('email', 'Invalid Email Address').isEmail();
-    req.checkBody('username', 'Invalid Username').notEmpty();
-    req.checkBody('password', 'Password is required').notEmpty().isLength({min: 8});
+    req.checkBody('studentUsername', 'Invalid Username').notEmpty();
+    req.checkBody('studentPassword', 'Password is required').notEmpty().isLength({min: 8});
     req.checkBody('confirmPassword', 'Passwords do not match!').equals(newUser.password);
     req.checkBody('gender', 'Please Select your Gender').notEmpty();
 
@@ -43,7 +43,7 @@ router.post('/register', (req, res) => {
 
     if (errors) {
         res.render('register', {
-            title: 'Sign up',
+            title: 'Student Sign up',
             style: '/css/index.css',
             errors: errors,
             name: newUser.name,
@@ -104,14 +104,14 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('student', (err, user, info) => {
         if (err) {
             return next(err);
         }
         if (!user) {
             req.flash('failure', 'Incorrect username or Password.');
             return res.render('index', {
-                title: 'User Login',
+                title: 'Student Login',
                 style: '/css/index.css',
                 script: '/js/index.js',
                 username: req.body.username,
@@ -122,10 +122,11 @@ router.post('/login', (req, res, next) => {
         req.logIn(user, (err) => {
             if (err) {
                 return console.log(err);
+            } else {
+                let id = user._id;
+                id = mongoose.Types.ObjectId(id);
+                res.redirect('/users/dashboard/' + id);
             }
-            let id = user._id;
-            id = mongoose.Types.ObjectId(id);
-            res.redirect(`/users/dashboard/${id}`);
         });
     })(req, res, next);
 });
@@ -166,7 +167,7 @@ router.get('/:id/joinChat', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.put('/dashboard/:id', (req, res) => {
+router.put('/dashboard/:id', ensureAuthenticated, (req, res) => {
     let data = {
         name: req.body.name,
         email: req.body.email,

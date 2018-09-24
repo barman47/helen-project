@@ -18,6 +18,7 @@ const {Users} = require('./utils/users');
 const {ensureAuthenticated} = require('./utils/access-control');
 const Message = require('./models/message');
 const User = require('./models/user');
+const Lecturer = require('./models/lecturer');
 const {saveMessage} = require('./utils/insert-message');
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
@@ -41,11 +42,12 @@ conn.on('error', (err) => {
 });
 
 const userRoute = require('./routes/users');
+const lecturers = require('./routes/lecturers');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
 
-// app.use(favicon(publicPath + '/img/favicon.png'));
+app.use(favicon(publicPath + '/img/favicon.png'));
 app.use(express.static(publicPath));
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -93,6 +95,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/users', userRoute);
+app.use('/lecturers', lecturers);
 
 app.get('/', (req, res) => {
     res.render('index', {

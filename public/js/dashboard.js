@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
     $('.modal').modal({preventScrolling: true});
     $(document).ready(function(){

@@ -23,12 +23,6 @@ $(document).ready(function () {
                 break;
             }
         }
-        // if (!gender[0].checked === true || !gender[1].checked === true) {
-        //     event.preventDefault();
-        //     M.toast({
-        //         html: 'Please select your gender'
-        //     });
-        // }
     }
 
     function isEmpty (element) {
@@ -40,16 +34,6 @@ $(document).ready(function () {
     }
 
     function checkInputs () {
-        form.name.addEventListener('focusout', function (event) {
-            if (isEmpty(form.name)) {
-                event.target.classList.add('invalid');
-                event.target.classList.remove('valid');
-                event.target.focus();
-            } else {
-                event.target.classList.add('valid');
-                event.target.classList.remove('invalid');
-            }
-        }, false);
         form.email.addEventListener('keyup', function (event) {
             if (!emailRegExp.test(event.target.value)) {
                 event.target.classList.add('invalid');

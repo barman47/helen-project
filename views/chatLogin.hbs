@@ -2,12 +2,17 @@
     <nav class="orange">
         <div class="nav-wrapper container">
             <a href="/" class="brand-logo"><i class="mdi mdi-message-processing left"></i>Netty</a>
-            <ul id="nav-mobile" class="right">
+            <a href="#" data-target="mobile" class="sidenav-trigger"><i class="mdi mdi-menu"></i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a id="toChat" href="/users/dashboard/{{id}}"><i class="mdi mdi-layers-outline left"></i>Dashboard</a></li>
                 <li><a id="logout" href="/users/logout"><i class="mdi mdi-logout left"></i></i>Logout</a></li>
             </ul>
         </div>
     </nav>
+    <ul id="mobile" class="sidenav">
+        <li><a id="toChat" href="/users/dashboard/{{id}}"><i class="mdi mdi-layers-outline left"></i>Dashboard</a></li>
+        <li><a id="logout" href="/users/logout"><i class="mdi mdi-logout left"></i></i>Logout</a></li>
+    </ul>
 </header>
 
 <main>

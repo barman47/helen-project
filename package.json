@@ -4,9 +4,9 @@
   "description": "A social network/chat application using nodejs, express and socket.io",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha utils/**.test.js",
-    "test-watch": "nodemon --exec 'npm test'",
-    "start": "node server.js"
+    "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
     "node": "^8.7.0",

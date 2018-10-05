@@ -6,12 +6,12 @@
   "scripts": {
     "test": "mocha utils/**.test.js",
     "test-watch": "nodemon --exec 'npm test'",
-    "start": "node sever.js"
+    "start": "node server.js"
   },
   "engines": {
-    "npm": "^5.4.2",
-    "node": "^8.7.0"
-  },
+    "node": "^8.7.0",
+    "npm": "^6.4.0"
+},
   "keywords": [
     "Nodejs",
     "express",
